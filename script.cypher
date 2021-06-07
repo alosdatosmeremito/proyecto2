@@ -1,12 +1,18 @@
-CREATE CONSTRAINT PrimaryKey_Persona on (p:Persona) ASSERT (p.ID) IS NODE KEY;
-CREATE CONSTRAINT PrimaryKey_Habitatge on (h:Habitatge) ASSERT (h.ID, h.Any, h.Municipi) IS NODE KEY;
+match (a) -[r] -> () delete a, r;
+match (a) delete a;
+CALL apoc.schema.assert({},{},true) YIELD label, key RETURN *;
+
+CREATE CONSTRAINT PrimaryKey_Persona on (p:Persona) ASSERT p.ID IS UNIQUE;
+CREATE CONSTRAINT PrimaryKey_Habitatge on (h:Habitatge) ASSERT h.Unique IS UNIQUE;
+
+CREATE INDEX IndexHabitatge FOR (h:Habitatge) ON (h.ID, h.Any, h.Municipi);
 
 LOAD CSV WITH HEADERS FROM 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTfU6oJBZhmhzzkV_0-avABPzHTdXy8851ySDbn2gq32WwaNmYxfiBtCGJGOZsMgCWjzlEGX4Zh1wqe/pub?output=csv' as row
 Merge (p:Persona {ID: toInteger(row.Id), Nom: row.name, Cognom: row.surname, Segon_Cognom: COALESCE(row.second_name, false), Any: toInteger(row.Year)})
 return NULL;
 
 LOAD CSV WITH HEADERS FROM "https://docs.google.com/spreadsheets/d/e/2PACX-1vT0ZhR6BSO_M72JEmxXKs6GLuOwxm_Oy-0UruLJeX8_R04KAcICuvrwn2OENQhtuvddU5RSJSclHRJf/pub?output=csv" as row
-Merge (:Habitatge {ID: toInteger(row.Id_Llar), Any: toInteger(row.Any_Padro), Carrer: row.Carrer, Numero: COALESCE(toInteger(row.Numero), false), Municipi: row.Municipi})
+Merge (:Habitatge {ID: toInteger(row.Id_Llar), Any: toInteger(row.Any_Padro), Carrer: row.Carrer, Numero: COALESCE(toInteger(row.Numero), false), Municipi: row.Municipi, Unique: row.Id_Llar + ', ' + row.Any_Padro + ', ' + row.Municipi})
 return NULL;
 
 LOAD CSV WITH HEADERS FROM 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRVOoMAMoxHiGboTjCIHo2yT30CCWgVHgocGnVJxiCTgyurtmqCfAFahHajobVzwXFLwhqajz1fqA8d/pub?output=csv' AS row
