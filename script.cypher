@@ -4,7 +4,7 @@ CREATE CONSTRAINT PrimaryKey_Habitatge IF NOT EXISTS on (h:Habitatge) ASSERT h.U
 CREATE INDEX IndexHabitatge IF NOT EXISTS FOR (h:Habitatge) ON (h.ID, h.Any, h.Municipi);
 
 LOAD CSV WITH HEADERS FROM 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTfU6oJBZhmhzzkV_0-avABPzHTdXy8851ySDbn2gq32WwaNmYxfiBtCGJGOZsMgCWjzlEGX4Zh1wqe/pub?output=csv' as row
-Merge (p:Persona {ID: toInteger(row.Id), Nom: row.name, Cognom: row.surname, Segon_Cognom: COALESCE(row.second_name, 'nan'), Any: toInteger(row.Year)})
+Merge (p:Persona {ID: toInteger(row.Id), Nom: row.name, Cognom: row.surname, Segon_Cognom: row.second_surname, Any: toInteger(row.Year)})
 return NULL;
 
 LOAD CSV WITH HEADERS FROM "https://docs.google.com/spreadsheets/d/e/2PACX-1vT0ZhR6BSO_M72JEmxXKs6GLuOwxm_Oy-0UruLJeX8_R04KAcICuvrwn2OENQhtuvddU5RSJSclHRJf/pub?output=csv" as row
