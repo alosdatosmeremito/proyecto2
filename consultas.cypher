@@ -21,6 +21,7 @@ return p, collect(p2)
 //Consulta 4
 match path=(p:Persona)<-[r:SAME_AS]->(n) where toLower(p.Nom)='miguel' and toLower(p.Cognom)='ballester'
 return path
+
 //Consulta 5
 match(p:Persona)-[:SAME_AS]-(n)
 where p.Nom = 'antonio' and p.Cognom = 'farran' 
