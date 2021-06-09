@@ -1,11 +1,7 @@
-match (a) -[r] -> () delete a, r;
-match (a) delete a;
-CALL apoc.schema.assert({},{},true) YIELD label, key RETURN *;
+CREATE CONSTRAINT PrimaryKey_Persona IF NOT EXISTS on (p:Persona) ASSERT p.ID IS UNIQUE;
+CREATE CONSTRAINT PrimaryKey_Habitatge IF NOT EXISTS on (h:Habitatge) ASSERT h.Unique IS UNIQUE;
 
-CREATE CONSTRAINT PrimaryKey_Persona on (p:Persona) ASSERT p.ID IS UNIQUE;
-CREATE CONSTRAINT PrimaryKey_Habitatge on (h:Habitatge) ASSERT h.Unique IS UNIQUE;
-
-CREATE INDEX IndexHabitatge FOR (h:Habitatge) ON (h.ID, h.Any, h.Municipi);
+CREATE INDEX IndexHabitatge IF NOT EXISTS FOR (h:Habitatge) ON (h.ID, h.Any, h.Municipi);
 
 LOAD CSV WITH HEADERS FROM 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTfU6oJBZhmhzzkV_0-avABPzHTdXy8851ySDbn2gq32WwaNmYxfiBtCGJGOZsMgCWjzlEGX4Zh1wqe/pub?output=csv' as row
 Merge (p:Persona {ID: toInteger(row.Id), Nom: row.name, Cognom: row.surname, Segon_Cognom: COALESCE(row.second_name, 'nan'), Any: toInteger(row.Year)})
