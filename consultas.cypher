@@ -25,11 +25,11 @@ return path
 //Consulta 5
 match(p:Persona)-[:SAME_AS]-(n)
 where p.Nom = 'antonio' and p.Cognom = 'farran' 
-return n.Nom,n.Cognom,n.Segon_Cognom,"SAME_AS" as Tipus
+return n.Nom as Nom,n.Cognom as Cognom1,n.Segon_Cognom as Cognom2,"FAMILIA" as Tipus
 UNION ALL
 match(p:Persona)-[:FAMILIA]-(n) 
 where p.Nom = 'antonio' and p.Cognom = 'farran'
-return n.Nom,n.Cognom,n.Segon_Cognom,"FAMILIA" as Tipus
+return n.Nom as Nom,n.Cognom as Cognom1,n.Segon_Cognom as Cognom2,"FAMILIA" as Tipus
 
 //Consulta 9
 match(h1:Habitatge) where h1.Any = 1881 and h1.Municipi = 'SFLL' with count(distinct(h1)) as num
