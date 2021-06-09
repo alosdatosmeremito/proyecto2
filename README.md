@@ -1,4 +1,4 @@
-# proyecto Neo4j
+# Proyecto Neo4j
 ## Grupo 81_3
 
 - Javier Ortega
