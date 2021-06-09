@@ -32,8 +32,9 @@ where p.Nom = 'antonio' and p.Cognom = 'farran'
 return n.Nom as Nom,n.Cognom as Cognom1,n.Segon_Cognom as Cognom2,"FAMILIA" as Tipus
 
 //Consulta 6
-match (p:Persona)-[x:FAMILIA]-(n)
-return distinct(x.Relacio_Harmonitzada)
+match (:Persona)-[x:FAMILIA]-(:Persona)
+where x.Relacio_Harmonitzada <> 'null'
+return distinct x.Relacio_Harmonitzada as Relacions_Familiars
 
 //Consulta 9
 match(h1:Habitatge) where h1.Any = 1881 and h1.Municipi = 'SFLL' with count(distinct(h1)) as num
