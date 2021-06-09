@@ -1,26 +1,26 @@
 //Consulta 1
 match (p:Persona)-[:VIU]->(h:Habitatge) where p.Nom <> 'nan' and h.Any=1866 and h.Municipi = 'CR'
-return collect(distinct p.Nom), count(*)
+return count(*) as Num_Habitants, collect(distinct p.Nom) as Llistat
 
 //Consulta 2
 match (h:Habitatge)
 where h.Municipi='SFLL' and h.Any < 1840
-return h.Any as Any, collect(h.ID) as Identificadors
+return h.Any as Any, collect(h.ID) as Llista_Llars
 ORDER BY h.Any
 
 //Consulta 3
 //llista
 match (p:Persona)-[:VIU]-(h:Habitatge)-[v:VIU]-(p2:Persona)
 where toLower(p.Nom)='rafel' and toLower(p.Cognom)='marti' and h.Any=1838
-return p.Nom, collect(p2.Nom)
+return p.Nom as Nom, collect(p2.Nom) as Convivents
 //graf
 match (p:Persona)-[:VIU]-(h:Habitatge)-[v:VIU]-(p2:Persona)
 where toLower(p.Nom)='rafel' and toLower(p.Cognom)='marti' and h.Any=1838
 return p, collect(p2)
 
 //Consulta 4
-match (p:Persona)<-[:SAME_AS]->(n) where toLower(p.Nom)='miguel' and toLower(p.Cognom)='ballester'
-return n
+match path=(p:Persona)<-[r:SAME_AS]->(n) where toLower(p.Nom)='miguel' and toLower(p.Cognom)='ballester'
+return path
 
 //Consulta 9
 match(h1:Habitatge) where h1.Any = 1881 and h1.Municipi = 'SFLL' with count(distinct(h1)) as num
