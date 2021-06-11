@@ -36,6 +36,18 @@ match (:Persona)-[x:FAMILIA]-(:Persona)
 where x.Relacio_Harmonitzada <> 'null'
 return distinct x.Relacio_Harmonitzada as Relacions_Familiars
 
+//Consulta 7
+match (h:Habitatge{Municipi:'SFLL'}) 
+where h.Carrer <> 'nan' and h.Numero <> 'nan' 
+return (h.Carrer) as Carrer, h.Numero as Numero_de_Calle, count(distinct h.Any) as Total, collect(distinct h.Any) as anys, collect(h.ID) as Ids 
+order by Total desc limit 10
+
+//Consulta 8
+match(h:Habitatge)<-[:VIU]-(p:Persona)-[r:FAMILIA]->(n), (h:Habitatge)<-[:VIU]-(pe:Persona)-[re:FAMILIA]->(n) 
+where h.Municipi='CR' and (toLower(r.Relacio)='cap' or toLower(r.Relacio)='cabeza') and (toLower(re.Relacio)='hijo' or toLower(re.Relacio)='hija' or toLower(re.Relacio_Harmonitzada) = 'fill' or toLower(re.Relacio_Harmonitzada) = 'filla') 
+return distinct p.Nom as nombre, p.Cognom as apellido, p.Segon_Cognom as segundo_apellido, size(collect(pe)) as fills 
+order by fills DESC limit 20
+
 //Consulta 9
 match(h1:Habitatge) where h1.Any = 1881 and h1.Municipi = 'SFLL' with count(distinct(h1)) as num
 match(h:Habitatge)<-[:VIU]-(p:Persona)-[r:FAMILIA]->(n)
