@@ -25,7 +25,7 @@ return path
 //Consulta 5
 match(p:Persona)-[:SAME_AS]-(n)
 where p.Nom = 'antonio' and p.Cognom = 'farran' 
-return n.Nom as Nom,n.Cognom as Cognom1,n.Segon_Cognom as Cognom2,"FAMILIA" as Tipus
+return n.Nom as Nom,n.Cognom as Cognom1,n.Segon_Cognom as Cognom2,"SAME_AS" as Tipus
 UNION ALL
 match(p:Persona)-[:FAMILIA]-(n) 
 where p.Nom = 'antonio' and p.Cognom = 'farran'
