@@ -52,7 +52,7 @@ order by fills DESC limit 20
 match(h1:Habitatge) where h1.Any = 1881 and h1.Municipi = 'SFLL' with count(distinct(h1)) as num
 match(h:Habitatge)<-[:VIU]-(p:Persona)-[r:FAMILIA]->(n)
 where h.Any = 1881 and h.Municipi = 'SFLL' and (toLower(r.Relacio)='hijo' or toLower(r.Relacio)='hija' or toLower(r.Relacio_Harmonitzada) = 'fill' or toLower(r.Relacio_Harmonitzada) = 'filla')
-return count(distinct(p)) as Num_Fills, num as Num_Llars, toFloat(count(distinct(p)))/toFloat(num) as Mitjana
+return count(distinct(p)) as Total_Fills, num as Num_Llars, toFloat(count(distinct(p)))/toFloat(num) as Mitjana
 
 //Consulta 10
 match (h:Habitatge)-[:VIU]-(p:Persona)
