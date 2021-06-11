@@ -39,8 +39,8 @@ return distinct x.Relacio_Harmonitzada as Relacions_Familiars
 //Consulta 7
 match (h:Habitatge{Municipi:'SFLL'}) 
 where h.Carrer <> 'nan' and h.Numero <> 'nan' 
-return (h.Carrer) as Carrer, h.Numero as Numero_de_Calle, count(distinct h.Any) as Total, collect(distinct h.Any) as anys, collect(h.ID) as Ids 
-order by Total desc limit 10
+return (h.Carrer) as Carrer, h.Numero as Numero_Carrer, count(distinct h.Any) as Total, collect(distinct h.Any) as Anys, collect(h.ID) as Ids 
+order by Total desc, h.Carrer, h.Numero limit 10
 
 //Consulta 8
 match(h:Habitatge)<-[:VIU]-(p:Persona)-[r:FAMILIA]->(n), (h:Habitatge)<-[:VIU]-(pe:Persona)-[re:FAMILIA]->(n) 
